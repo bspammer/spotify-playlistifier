@@ -1,0 +1,9 @@
+# Ignore vim files
+*.un~
+*.swp
+
+# Confidential files
+clientsecret
+refreshtoken
+accesstoken
+accesscode
