@@ -1,5 +1,4 @@
 # Ignore vim files
-*.un~
 *.swp
 
 # Confidential files
