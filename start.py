@@ -141,7 +141,7 @@ def add_tracks_to_playlist(user_id, playlist_id, tracks):
         }
         if len(payload['uris']) == 0:
             break
-        make_api_request("/" + user_id + "/playlists/" + playlist_id
+        make_api_request("/users/" + user_id + "/playlists/" + playlist_id
                 + "/tracks", params=payload, method="POST")
 
 
