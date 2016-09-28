@@ -49,7 +49,7 @@ def make_api_request(endpoint_url, params={}, data={}, use_prefix=True, method="
     try:
         data = json.loads(r.text)
     except ValueError:
-        return 
+        return
     if "error" in data.keys():
         if data["error"]["status"] == 401:
             print("Getting new access token")
@@ -114,11 +114,12 @@ def get_all_album_ids(artist_id):
     return [album['id'] for album in albums]
 
 
-def get_track_ids_from_albums(album_ids):
+def get_track_ids_from_albums(album_ids, artist_id):
     track_ids = []
     for id in album_ids:
         tracks = recurse_data("https://api.spotify.com/v1/albums/" + id + "/tracks")
-        track_ids += [track['uri'] for track in tracks]
+        track_ids += [track['uri'] for track in tracks if artist_id in
+                [artist["id"] for artist in track["artists"]]]
     return track_ids
 
 
@@ -149,7 +150,7 @@ def main(artist_name):
     playlist_id = create_new_playlist("Playlistifier: " + artist_name)
     artist_id = get_artist_id(artist_name)
     user_id = get_current_user_id()
-    tracks = get_track_ids_from_albums(get_all_album_ids(artist_id))
+    tracks = get_track_ids_from_albums(get_all_album_ids(artist_id), artist_id)
     add_tracks_to_playlist(user_id, playlist_id, tracks)
 
 
